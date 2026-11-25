@@ -351,6 +351,15 @@
   addEventListener("hashchange", route);
   addEventListener("resize", () => { if (!$("glossView").hidden) showView("gloss"); });
 
+  /* GitHub 스타 수 (실패하면 숫자 없이 버튼만) */
+  const gh = document.getElementById("ghStar");
+  if (gh && /github\.com\/[^/]+\/[^/]+/.test(gh.href)) {
+    const repo = gh.href.split("github.com/")[1].replace(/\/$/, "");
+    fetch("https://api.github.com/repos/" + repo).then((r) => (r.ok ? r.json() : null)).then((d) => {
+      if (!d || typeof d.stargazers_count !== "number") return;
+      const c = document.getElementById("ghCount"); c.textContent = d.stargazers_count.toLocaleString(); c.hidden = false;
+    }).catch(() => {});
+  }
   setPlaying(playing);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { route(); requestAnimationFrame(tick); });
 })();
