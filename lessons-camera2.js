@@ -538,7 +538,7 @@
       const toWorld = (e) => {
         if (!G) return null;
         const r = cv.getBoundingClientRect();
-        return [(e.clientX - r.left - G.cx) / G.sc, (e.clientY - r.top - G.cy) / G.sc];
+        return [(e.clientX - r.left - (cv._inset || 0) - G.cx) / G.sc, (e.clientY - r.top - (cv._inset || 0) - G.cy) / G.sc];
       };
       const place = (p) => {
         const d = Math.hypot(p[0], p[1]), R = M.clamp(d, 2.2, 4.8), a = Math.atan2(p[1], p[0]);
@@ -604,7 +604,7 @@
           CK().panel(x, Pp.x, Pp.y, Pp.w - 3, Pp.h - 3, "위에서 본 촬영장", { grid: false });
           x.save(); M.rrect(x, Pp.x, Pp.y, Pp.w - 3, Pp.h - 3, 10); x.clip();
           const sc = Math.min((Pp.w - 20) / 10.6, (Pp.h - 30) / 10.6), cx = Pp.x + Pp.w / 2, cy = Pp.y + Pp.h / 2 + 6;
-          G = { cx, cy, sc, inPlan: (e) => { const r = cv.getBoundingClientRect(), ex = e.clientX - r.left, ey = e.clientY - r.top; return ex >= Pp.x && ex <= Pp.x + Pp.w && ey >= Pp.y && ey <= Pp.y + Pp.h; } };
+          G = { cx, cy, sc, inPlan: (e) => { const r = cv.getBoundingClientRect(), ex = e.clientX - r.left - (cv._inset || 0), ey = e.clientY - r.top - (cv._inset || 0); return ex >= Pp.x && ex <= Pp.x + Pp.w && ey >= Pp.y && ey <= Pp.y + Pp.h; } };
           const PX = (p) => [cx + p[0] * sc, cy + p[1] * sc];
           x.fillStyle = M.alpha(c.c, 0.12); x.fillRect(Pp.x, cy, Pp.w, Pp.h);
           x.fillStyle = M.alpha(c.b, 0.1); x.fillRect(Pp.x, Pp.y, Pp.w, cy - Pp.y);

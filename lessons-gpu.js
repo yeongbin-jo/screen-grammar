@@ -384,7 +384,7 @@
       const CODE = "const scene = new THREE.Scene();\nconst camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);\nconst renderer = new THREE.WebGLRenderer({ antialias: true });\ndocument.body.append(renderer.domElement);\n\nconst geometry = new THREE.BoxGeometry(1, 1, 1);\nconst material = new THREE.MeshStandardMaterial({ color: 'royalblue' });\nconst boxA = new THREE.Mesh(geometry, material);\n\nconst turntable = new THREE.Group();\nscene.add(camera, light, turntable);\nturntable.add(boxA, boxB);\nboxB.add(boxC);                     // C는 B의 자식\nboxC.position.set(0.95, 1.2, 0);    // B 기준 로컬 좌표\n\nturntable.rotation.y = Math.PI / 4; // 자식 전부가 따라 돈다\nboxC.getWorldPosition(v);           // 월드 좌표로 환산\n\nrenderer.setAnimationLoop((t) => {\n  turntable.rotation.y = t / 2000;  // ① 갱신\n  boxB.rotation.y = t / 600;\n  renderer.render(scene, camera);   // ② 그리기\n});";
       const HL = [[[0, 3]], [[5, 7]], [[9, 13]], [[11, 11], [15, 15]], [[12, 13], [16, 16]], [[18, 22]]];
       cv.addEventListener("pointerdown", (e) => {
-        const r = cv.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+        const r = cv.getBoundingClientRect(), px = e.clientX - r.left - (cv._inset || 0), py = e.clientY - r.top - (cv._inset || 0);
         const hit = rowHits.find((h) => px >= h.x && px <= h.x + h.w && py >= h.y && py <= h.y + h.h);
         if (hit && PICK.some((p) => p[0] === hit.id)) { sel = hit.id; chips.set(PICK.findIndex((p) => p[0] === hit.id)); }
       });
@@ -567,7 +567,7 @@
       const setL = (e) => {
         if (!geo) return;
         const r = cv.getBoundingClientRect();
-        let dx = (e.clientX - r.left - geo.cx) / geo.R, dy = -(e.clientY - r.top - geo.cy) / geo.R;
+        let dx = (e.clientX - r.left - (cv._inset || 0) - geo.cx) / geo.R, dy = -(e.clientY - r.top - (cv._inset || 0) - geo.cy) / geo.R;
         const l = Math.hypot(dx, dy);
         if (l > 0.97) { dx *= 0.97 / l; dy *= 0.97 / l; }
         L = norm([dx, dy, Math.sqrt(Math.max(0.0025, 1 - dx * dx - dy * dy))]);

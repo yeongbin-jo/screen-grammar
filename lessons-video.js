@@ -109,7 +109,7 @@
         for (const k of ["key", "fill"]) { const p = L.fx[k]; if (p && Math.hypot(px - p[0], py - p[1]) < 26) return k; }
         return null;
       };
-      const ptr = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+      const ptr = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left - (cv._inset || 0), e.clientY - r.top - (cv._inset || 0)]; };
       const onDown = (e) => { const [px, py] = ptr(e); drag = hit(px, py); if (drag) { cv.setPointerCapture(e.pointerId); e.preventDefault(); } };
       const onMove = (e) => {
         const [px, py] = ptr(e);
@@ -777,13 +777,13 @@
       }
       const onDown = (e) => {
         if (step !== 1) return;
-        const r = cv.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+        const r = cv.getBoundingClientRect(), px = e.clientX - r.left - (cv._inset || 0), py = e.clientY - r.top - (cv._inset || 0);
         const hI = hits.findIndex((b) => px >= b.x && px <= b.x + b.w && py >= b.y && py <= b.y + b.h);
         if (hI >= 0) { pick = hI; chips.set(hI); api.restart(); readout(); }
       };
       const onMove = (e) => {
         if (step !== 1) { cv.style.cursor = ""; return; }
-        const r = cv.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top;
+        const r = cv.getBoundingClientRect(), px = e.clientX - r.left - (cv._inset || 0), py = e.clientY - r.top - (cv._inset || 0);
         cv.style.cursor = hits.some((b) => px >= b.x && px <= b.x + b.w && py >= b.y && py <= b.y + b.h) ? "pointer" : "";
       };
       cv.addEventListener("pointerdown", onDown); cv.addEventListener("pointermove", onMove);

@@ -295,7 +295,7 @@
       const chips = M.chips(api.controls, { title: "스케일 종류", items: SC_TYPES, value: 0, onPick: (i) => { type = SC_TYPES[i]; api.restart(); showCode(); } });
       const ro = M.readout(api.controls);
       function showCode() { const hl = SC_HL[step][type]; api.code(SC_CODE[type], hl || [], "d3.js"); }
-      const onMove = (e) => { const r = cv.getBoundingClientRect(); ptr = e.clientX - r.left; ptrT = performance.now(); };
+      const onMove = (e) => { const r = cv.getBoundingClientRect(); ptr = e.clientX - r.left - (cv._inset || 0); ptrT = performance.now(); };
       const onLeave = () => { ptr = null; };
       cv.addEventListener("pointermove", onMove); cv.addEventListener("pointerleave", onLeave);
       cv.style.cursor = "crosshair";

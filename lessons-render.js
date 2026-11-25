@@ -323,7 +323,7 @@ LESSONS.push({
       });
     }
     // 끌기
-    const local = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    const local = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left - (cv._inset || 0), e.clientY - r.top - (cv._inset || 0)]; };
     cv.addEventListener("pointerdown", (e) => {
       if (step !== 4 || !geo) return;
       const [px, py] = local(e), cur = currentDrawn();
@@ -611,7 +611,7 @@ LESSONS.push({
       "// 정점 셰이더: 꼭짓점마다 한 번\nattribute vec3 position; attribute vec3 color;\nvarying vec3 vColor;\nvoid main() { vColor = color; gl_Position = mvp * vec4(position, 1.0); }\n\n// 프래그먼트 셰이더: 픽셀마다 한 번\nvarying vec3 vColor;   // 세 꼭짓점 색이 보간되어 들어옴\nvoid main() { gl_FragColor = vec4(vColor, 1.0); }",
     ];
     const HL = [[[1, 3]], [[1, 4]], [[3, 3]], [[2, 4]], [[0, 0], [4, 4]], [[1, 3], [6, 7]]];
-    const local = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    const local = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left - (cv._inset || 0), e.clientY - r.top - (cv._inset || 0)]; };
     const onMove = (e) => (hover = local(e));
     const onLeave = () => (hover = null);
     cv.addEventListener("pointermove", onMove); cv.addEventListener("pointerdown", onMove); cv.addEventListener("pointerleave", onLeave);

@@ -118,7 +118,7 @@
       let drag = false;
       const pick = (e) => {
         const r = cv.getBoundingClientRect();
-        const dx = e.clientX - r.left - geo.cx, dy = e.clientY - r.top - geo.cy, d = Math.hypot(dx, dy);
+        const dx = e.clientX - r.left - (cv._inset || 0) - geo.cx, dy = e.clientY - r.top - (cv._inset || 0) - geo.cy, d = Math.hypot(dx, dy);
         if (!drag && d > geo.R * 1.12) return false;
         H = Math.round((((Math.atan2(-dy, dx) * 180) / Math.PI) + 360) % 360);
         Cc = Math.round(M.clamp((d / geo.R) * CMAX, 0.02, CMAX) * 200) / 200;
@@ -776,7 +776,7 @@
       cv.style.cursor = "pointer";
       cv.addEventListener("pointerdown", (e) => {
         const r = cv.getBoundingClientRect();
-        const v = M.clamp((e.clientX - r.left - geo.x0) / (geo.x1 - geo.x0), 0, 1);
+        const v = M.clamp((e.clientX - r.left - (cv._inset || 0) - geo.x0) / (geo.x1 - geo.x0), 0, 1);
         if (!live) startLive(curVals);
         live.user = true; retarget(v);
       });

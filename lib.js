@@ -98,9 +98,11 @@ M.fit = (c) => {
   const W = Math.max(1, Math.round(r.width * d)), H = Math.max(1, Math.round(r.height * d));
   if (c.width !== W || c.height !== H) { c.width = W; c.height = H; }
   const x = c.getContext("2d");
-  x.setTransform(d, 0, 0, d, 0, 0);
-  x.clearRect(0, 0, r.width, r.height);
-  return { x, w: r.width, h: r.height };
+  /* 안쪽 여백: 가장자리에 붙여 그린 선·상자가 잘리지 않게. 포인터 좌표는 c._inset 만큼 빼서 쓴다 */
+  const m = r.width < 520 ? 4 : 8; c._inset = m;
+  x.setTransform(d, 0, 0, d, d * m, d * m);
+  x.clearRect(-m, -m, r.width, r.height);
+  return { x, w: r.width - 2 * m, h: r.height - 2 * m };
 };
 
 M.text = (x, s, px, py, o = {}) => {

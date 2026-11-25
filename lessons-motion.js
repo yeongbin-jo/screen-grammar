@@ -239,7 +239,7 @@
       M.slider(api.controls, { id: "bzdur", label: "지속시간", min: 200, max: 2000, step: 50, value: 900, unit: " ms", onInput: (v) => { dur = v; api.restart(); } });
       function setP(p) { P = p.slice(); f = M.bezier(...P); out.textContent = `cubic-bezier(${P.map((v) => +v.toFixed(2)).join(", ")})`; api.restart(); }
       setP(P);
-      const toPt = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+      const toPt = (e) => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left - (cv._inset || 0), e.clientY - r.top - (cv._inset || 0)]; };
       const near = (mx, my) => [[P[0], P[1]], [P[2], P[3]]].findIndex(([a, b]) => Math.hypot(layout.X(a) - mx, layout.Y(b) - my) < 20);
       const onDown = (e) => {
         if (!layout) return;

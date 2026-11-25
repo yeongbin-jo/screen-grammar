@@ -472,12 +472,12 @@ LESSONS.push({
     api.controls.append(tip);
     const toT = (e) => {
       if (!lay) return null;
-      const r = cv.getBoundingClientRect(), ex = e.clientX - r.left, ey = e.clientY - r.top;
+      const r = cv.getBoundingClientRect(), ex = e.clientX - r.left - (cv._inset || 0), ey = e.clientY - r.top - (cv._inset || 0);
       if (ey < lay.ty0 - 10 || ey > lay.ty1 + 10) return null;
       return M.clamp(((ex - lay.tx) / lay.tw) * T, 0, T);
     };
     const pd = (e) => { const t = toT(e); if (t == null) return; drag = true; manual = t; cv.setPointerCapture(e.pointerId); };
-    const pm = (e) => { if (drag) { const r = cv.getBoundingClientRect(); manual = M.clamp(((e.clientX - r.left - lay.tx) / lay.tw) * T, 0, T); } };
+    const pm = (e) => { if (drag) { const r = cv.getBoundingClientRect(); manual = M.clamp(((e.clientX - r.left - (cv._inset || 0) - lay.tx) / lay.tw) * T, 0, T); } };
     const pu = () => { drag = false; };
     cv.addEventListener("pointerdown", pd); cv.addEventListener("pointermove", pm);
     cv.addEventListener("pointerup", pu); cv.addEventListener("pointercancel", pu);
