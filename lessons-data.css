@@ -1,0 +1,7 @@
+/* 8장 데이터 시각화 — data-join 범례 */
+.data-join-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 11.5px; font-weight: 600; }
+.data-join-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.data-join-legend i { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--ink2); box-shadow: 1px 1.5px 0 var(--ink2); }
+.data-join-legend .is-enter { background: var(--c); }
+.data-join-legend .is-update { background: var(--a); }
+.data-join-legend .is-exit { background: var(--b); }
